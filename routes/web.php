@@ -24,3 +24,10 @@ Route::get('/','PagesController@index');
 Route::get('widget/create',['as'=>'widget.create','uses'=>'WidgetController@create']);
 Route::get('widget/{id}-{slug?}',['as'=>'widget.show','uses'=>'WidgetController@show']);
 Route::resource('widget','WidgetController',['except'=>['create','show']]);
+Route::get('admin',['as'=>'admin','uses'=>'AdminController@index']);
+Route::get('terms-of-service','PagesController@terms');
+Route::get('privacy','PagesController@privacy');
+
+// socialite routes
+Route::get('auth/{provider}', 'Auth\AuthController@redirectToProvider');
+Route::get('auth/{provider}/callback','Auth\AuthController@handleProviderCallback');

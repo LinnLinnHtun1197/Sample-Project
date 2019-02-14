@@ -5,13 +5,16 @@ use App\Widget;
 use Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Exceptions\UnauthorizedException;
+use App\Http\AuthTraits\OwnsRecord;
 
 class WidgetController extends Controller
 {
+    use OwnsRecord;
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth','admin'],['except'=>['index']]);
     }
     /**
      * Display a listing of the resource.
@@ -80,6 +83,9 @@ class WidgetController extends Controller
     public function edit($id)
     {
         $widget = Widget::findOrFail($id);
+        if(!$this->adminOrCurrentUserOwns($widget)){
+            throw new UnauthorizedException;
+        }
         return view('widget.edit',compact('widget'));
     }
 
@@ -94,6 +100,10 @@ class WidgetController extends Controller
     {
         $this->validate($request,['name'=> 'required|string|max:30|unique:widgets,name,'.$id]);
         $widget = Widget::findOrFail($id);
+        if(!$this->adminOrCurrentUserOwns($widget)){
+            throw new UnauthorizedException;
+            
+        }
         $slug = str_slug($request->name,"-");
         $widget->update([
             'name' => $request->name,

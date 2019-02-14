@@ -48,10 +48,15 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $data['is_subscribed'] = empty($data['is_subscribed']) ? 0:1;
+        $data['terms'] = empty($data['terms']) ? 0:1;
+
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'is_subscribed'=> 'boolean',
             'password' => 'required|string|min:6|confirmed',
+            'terms' => 'accepted',
         ]);
     }
 
@@ -63,10 +68,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $data['is_subscribed'] = empty($data['is_subscribed']) ? 0:1;
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'is_subscribed' => $data['is_subscribed'],
             'password' => Hash::make($data['password']),
         ]);
     }
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+        $this->guard()->login($this->create($request->all()));
+        return redirect($this->redirectPath());
+    }
+
 }
