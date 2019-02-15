@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\AuthTraits\OwnsRecord;
+use Illuminate\Http\Request;
 use App\Widget;
 use Redirect;
+use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use App\Exceptions\UnauthorizedException;
-use App\Http\AuthTraits\OwnsRecord;
 
 class WidgetController extends Controller
 {

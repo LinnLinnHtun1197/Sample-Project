@@ -8,6 +8,19 @@
     </ol>
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
+
+            <div>
+
+                <a href="/auth/facebook">
+                    <button type="button"
+                            class="btn btn-primary btn-lg btn-block">Facebook Sign In
+                    </button>
+                </a>
+
+            </div>
+
+            <div>Login in with your Facebook sign in above or use the form below:</div>
+
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
                 <div class="panel-body">

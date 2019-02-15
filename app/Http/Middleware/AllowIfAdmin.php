@@ -17,13 +17,19 @@ class AllowIfAdmin
      */
     public function handle($request, Closure $next)
     {
-       if(Auth::check() && Auth::user()->isActiveStatus())
-       {
-            if(Auth::user()->is_admin == 1)
+
+
+        if (Auth::check() && Auth::user()->isActiveStatus()) {
+            if (Auth::user()->isAdmin())
             {
+
                 return $next($request);
             }
-       }
-       throw new UnauthorizedException;
+
+        }
+
+        throw new UnauthorizedException;
+
     }
+
 }
